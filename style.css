@@ -189,7 +189,18 @@ input.error::placeholder {
   width: 100px;
   justify-self: right;
 }
-
+.loading {
+  animation: loading 1s infinite ease-in-out;
+  pointer-events: none;
+}
+@keyframes loading {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0.5;
+  }
+}
 .advanced {
   text-align: center;
 }

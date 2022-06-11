@@ -24,6 +24,9 @@ const getUrl = (url) => {
       error.classList.remove("error");
       input.classList.remove("error");
 
+      // Stop Loading
+      button.classList.remove("loading");
+      button.textContent = "Shorten It!";
       // Add new link
       const { result } = data;
       let shortened = document.createElement("div");
@@ -32,7 +35,7 @@ const getUrl = (url) => {
           <a href="${result.original_link}" target="_blank" class="long">${result.original_link}</a>
           <a href="https://${result.short_link2}" target="_blank" class="short">${result.short_link2}</a>
           <button>Copy</button>
-       `;
+      `;
       shortenedResult.appendChild(shortened);
 
       // Copy to clipboard
@@ -79,14 +82,22 @@ const copyToClipboard = (shortened) => {
 };
 
 button.addEventListener("click", () => {
+  button.textContent = "...";
+  button.classList.add("loading");
   let url = apiUrl + input.value;
-  getUrl(url);
+  setTimeout(() => {
+    getUrl(url);
+  }, 1000);
   input.value = "";
 });
 input.addEventListener("keypress", (e) => {
   if (e.key === "Enter") {
+    button.textContent = "...";
+    button.classList.add("loading");
     let url = apiUrl + input.value;
-    getUrl(url);
+    setTimeout(() => {
+      getUrl(url);
+    }, 1000);
     input.value = "";
   }
 });
@@ -102,10 +113,10 @@ window.addEventListener("load", () => {
     shortened = document.createElement("div");
     shortened.classList = "shortened";
     shortened.innerHTML = `
-   <a href="${e.oLink}" target="_blank" class="long">${e.oLink}</a>
-   <a href="https://${e.sLink}" target="_blank" class="short">${e.sLink}</a>
-   <button>Copy</button>
-   `;
+    <a href="${e.oLink}" target="_blank" class="long">${e.oLink}</a>
+    <a href="https://${e.sLink}" target="_blank" class="short">${e.sLink}</a>
+    <button>Copy</button>
+    `;
     shortenedResult.appendChild(shortened);
     copyToClipboard(shortened);
   });
