@@ -50,14 +50,24 @@ const getUrl = (url) => {
       localStorage.setItem("links", JSON.stringify(linkArray));
     })
     .catch(() => {
-      // Add error message
-      input.classList.add("error");
-      if (!input.value) {
-        error.classList.add("error");
-      } else {
-        error.classList.add("error");
-        error.textContent = "Enter a valid link";
-      }
+      fetch(url)
+        .then((resp) => {
+          return resp.json();
+        })
+        .then((data) => {
+          // Add error message
+          input.classList.add("error");
+          error.classList.add("error");
+          if (data.error_code == 1) {
+            error.textContent = "Please add a link";
+          }
+          if (data.error_code == 2) {
+            error.textContent = "Enter a valid link";
+          }
+          if (data.error_code == 10) {
+            error.textContent = "Disallowed Link";
+          }
+        });
     });
 };
 
