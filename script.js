@@ -106,8 +106,11 @@ window.addEventListener("load", () => {
   const storedLinks = localStorage.getItem("links");
   let parsedLinks = JSON.parse(storedLinks);
 
-  linkArray = [...parsedLinks];
-  console.log(linkArray);
+  if(parsedLinks){
+    linkArray = [...parsedLinks];  
+  }
+
+
 
   parsedLinks.forEach((e) => {
     shortened = document.createElement("div");
